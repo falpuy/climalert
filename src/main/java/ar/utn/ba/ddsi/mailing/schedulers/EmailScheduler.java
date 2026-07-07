@@ -4,6 +4,8 @@ import ar.utn.ba.ddsi.mailing.services.IEmailService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class EmailScheduler {
     private final IEmailService emailService;
@@ -13,8 +15,8 @@ public class EmailScheduler {
     }
 
     @Scheduled(cron = "${cron.expression}")
-    public void procesarEmailsPendientes() {
-        emailService.procesarPendientes();
+    public List<String> procesarEmailsPendientes() {
+        return emailService.procesarPendientes();
     }
 
     @Scheduled(cron = "${cron.expression}")

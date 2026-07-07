@@ -6,6 +6,8 @@ import ar.utn.ba.ddsi.mailing.services.IEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,13 +33,16 @@ public class EmailService implements IEmailService {
     }
 
     @Override
-    public void procesarPendientes() {
+    public List<String> procesarPendientes() {
         List<Email> pendientes = emailRepository.findByEnviado(false);
+        List<String> respuestas = new ArrayList<>();
         for (Email email : pendientes) {
-            email.enviar();
+            String respuesta = email.enviar();
             email.setEnviado(true);
             emailRepository.save(email);
+            respuestas.add(respuesta);
         }
+        return respuestas;
     }
 
     @Override
